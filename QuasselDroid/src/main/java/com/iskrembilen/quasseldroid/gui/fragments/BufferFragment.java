@@ -34,7 +34,11 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -49,11 +53,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.iskrembilen.quasseldroid.Buffer;
 import com.iskrembilen.quasseldroid.BufferInfo;
 import com.iskrembilen.quasseldroid.BufferUtils;
@@ -74,7 +73,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BufferFragment extends SherlockFragment implements OnGroupExpandListener, OnChildClickListener, OnGroupCollapseListener {
+public class BufferFragment extends Fragment implements OnGroupExpandListener, OnChildClickListener, OnGroupCollapseListener {
 
     private static final String TAG = BufferFragment.class.getSimpleName();
 
@@ -110,8 +109,8 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
             restoreListPosition = savedInstanceState.getInt(LIST_POSITION_KEY);
             restoreItemPosition = savedInstanceState.getInt(ITEM_POSITION_KEY);
         }
-        setHasOptionsMenu(true);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity());
+        //setHasOptionsMenu(true);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 
             @Override
@@ -135,7 +134,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        bufferListAdapter = new BufferListAdapter(getSherlockActivity());
+        bufferListAdapter = new BufferListAdapter(getActivity());
         bufferList.setAdapter(bufferListAdapter);
         bufferList.setDividerHeight(0);
         bufferList.setOnChildClickListener(this);
@@ -211,7 +210,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
                         mode.finish();
                         return true;
                     case R.id.context_menu_delete:
-                        BufferHelper.showDeleteConfirmDialog(getSherlockActivity(), actionModeData.id);
+                        BufferHelper.showDeleteConfirmDialog(getActivity(), actionModeData.id);
                         mode.finish();
                         return true;
                     case R.id.context_menu_hide_temp:
@@ -250,7 +249,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
 
                 if (ExpandableListView.getPackedPositionType(packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                     Buffer buffer = bufferListAdapter.getChild(groupPosition, childPosition);
-                    actionModeData.actionMode = getSherlockActivity().startActionMode(actionModeData.actionModeCallbackBuffer);
+                    actionModeData.actionMode = getActivity().startActionMode(actionModeData.actionModeCallbackBuffer);
                     actionModeData.id = buffer.getInfo().id;
                     actionModeData.listItem = view;
                     if (buffer.getInfo().type == BufferInfo.Type.QueryBuffer) {
@@ -281,7 +280,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
                     }
                 } else if (ExpandableListView.getPackedPositionType(packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     Network network = bufferListAdapter.getGroup(groupPosition);
-                    actionModeData.actionMode = getSherlockActivity().startActionMode(actionModeData.actionModeCallbackNetwork);
+                    actionModeData.actionMode = getActivity().startActionMode(actionModeData.actionModeCallbackNetwork);
                     actionModeData.id = network.getId();
                     actionModeData.listItem = view;
                     if (network.isConnected()) {
@@ -353,7 +352,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
         switch (item.getItemId()) {
             case R.id.menu_join_channel:
                 if (bufferListAdapter.networks == null)
-                    Toast.makeText(getSherlockActivity(), getString(R.string.not_available), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.not_available), Toast.LENGTH_SHORT).show();
                 else showJoinChannelDialog();
                 return true;
             case R.id.context_menu_hide_hidden:
@@ -525,7 +524,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
             } else {
                 convertView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
-            BufferUtils.setBufferViewStatus(getSherlockActivity(), entry, holder.bufferView);
+            BufferUtils.setBufferViewStatus(getActivity(), entry, holder.bufferView);
             return convertView;
         }
 
@@ -576,7 +575,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
                         if (getGroup((Integer) v.getTag()).getStatusBuffer() != null) {
                             openBuffer(getGroup((Integer) v.getTag()).getStatusBuffer());
                         } else { //TODO: maybe show the chatActivity but have it be empty, logo or something
-                            Toast.makeText(getSherlockActivity(), "Not Available", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Not Available", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -589,7 +588,7 @@ public class BufferFragment extends SherlockFragment implements OnGroupExpandLis
             holder.networkId = entry.getId();
             holder.statusView.setText(entry.getName());
             holder.statusView.setTag(groupPosition); //Used in click listener to know what item this is
-            BufferUtils.setBufferViewStatus(getSherlockActivity(), entry.getStatusBuffer(), holder.statusView);
+            BufferUtils.setBufferViewStatus(getActivity(), entry.getStatusBuffer(), holder.statusView);
             return convertView;
         }
 

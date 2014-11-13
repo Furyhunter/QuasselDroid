@@ -36,19 +36,21 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.iskrembilen.quasseldroid.Buffer;
 import com.iskrembilen.quasseldroid.BufferInfo;
 import com.iskrembilen.quasseldroid.NetworkCollection;
@@ -76,7 +78,7 @@ import com.squareup.otto.Subscribe;
 
 import java.lang.reflect.Field;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -174,12 +176,15 @@ public class MainActivity extends SherlockFragmentActivity {
                     Buffer buffer = networks.getBufferById(openedBuffer);
                     if (buffer != null) {
                         if (buffer.getInfo().type == BufferInfo.Type.StatusBuffer)
-                            getSupportActionBar().setTitle(networks.getNetworkById(buffer.getInfo().networkId).getName());
+                            if (getActionBar() != null)
+                                getActionBar().setTitle(networks.getNetworkById(buffer.getInfo().networkId).getName());
                         else
-                            getSupportActionBar().setTitle(buffer.getInfo().name);
+                            if (getActionBar() != null)
+                                getActionBar().setTitle(buffer.getInfo().name);
                     }
                 } else {
-                    getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                    if (getActionBar() != null)
+                        getActionBar().setTitle(getResources().getString(R.string.app_name));
                     invalidateOptionsMenu();
                 }
                 if (drawerView.getId() == R.id.left_drawer && openedBuffer != -1) {
@@ -200,7 +205,9 @@ public class MainActivity extends SherlockFragmentActivity {
                     hideKeyboard(bufferFragment.getView());
                 }
 
-                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                if (getActionBar() != null) {
+                    getActionBar().setTitle(getResources().getString(R.string.app_name));
+                }
                 invalidateOptionsMenu();
             }
         };
@@ -208,8 +215,10 @@ public class MainActivity extends SherlockFragmentActivity {
         // Set the drawer toggle as the DrawerListener
         drawer.setDrawerListener(drawerToggle);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+        }
 
         sharedPreferenceChangeListener = new OnSharedPreferenceChangeListener() {
 
@@ -221,7 +230,7 @@ public class MainActivity extends SherlockFragmentActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                             setActionBarSubtitle("");
                         } else {
-                            getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                            getActionBar().setTitle(getResources().getString(R.string.app_name));
 
                         }
                     }
@@ -230,10 +239,12 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         };
         preferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener); //To avoid GC issues
+
+        setActionBar(new Toolbar(getApplicationContext()));
     }
 
     private void setActionBarSubtitle(String subtitle) {
-        getSupportActionBar().setSubtitle(subtitle);
+        getActionBar().setSubtitle(subtitle);
     }
 
     @Override
@@ -342,7 +353,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.base_menu, menu);
+        getMenuInflater().inflate(R.menu.base_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,12 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.iskrembilen.quasseldroid.R;
 import com.iskrembilen.quasseldroid.events.JoinChannelEvent;
 import com.iskrembilen.quasseldroid.util.BusProvider;
 
-public class JoinChannelDialog extends SherlockDialogFragment {
+public class JoinChannelDialog extends DialogFragment {
 
     private Spinner networkSpinner;
     private EditText channelNameField;
@@ -36,7 +36,7 @@ public class JoinChannelDialog extends SherlockDialogFragment {
     public void onActivityCreated(Bundle arg0) {
         super.onActivityCreated(arg0);
         getDialog().setTitle("Join Channel");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getSherlockActivity(), android.R.layout.simple_spinner_item, getNetworkNames());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getNetworkNames());
         networkSpinner.setAdapter(adapter);
 
     }

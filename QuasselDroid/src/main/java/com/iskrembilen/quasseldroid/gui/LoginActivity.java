@@ -36,6 +36,9 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -47,9 +50,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.iskrembilen.quasseldroid.R;
 import com.iskrembilen.quasseldroid.events.CertificateChangedEvent;
 import com.iskrembilen.quasseldroid.events.ConnectionChangedEvent;
@@ -69,7 +69,7 @@ import android.util.Log;
 import java.util.Observable;
 import java.util.Observer;
 
-public class LoginActivity extends SherlockFragmentActivity implements Observer, LoginProgressDialog.Callbacks {
+public class LoginActivity extends ActionBarActivity implements Observer, LoginProgressDialog.Callbacks {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     public static final String PREFS_ACCOUNT = "AccountPreferences";
@@ -151,7 +151,7 @@ public class LoginActivity extends SherlockFragmentActivity implements Observer,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.login_menu, menu);
+        getMenuInflater().inflate(R.menu.login_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

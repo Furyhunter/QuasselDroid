@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -27,10 +30,6 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.iskrembilen.quasseldroid.Buffer;
 import com.iskrembilen.quasseldroid.BufferInfo;
 import com.iskrembilen.quasseldroid.IrcMessage;
@@ -62,7 +61,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ChatFragment extends SherlockFragment {
+public class ChatFragment extends Fragment {
 
     private static final String TAG = ChatFragment.class.getSimpleName();
     public static final String BUFFER_ID = "bufferid";
@@ -91,8 +90,8 @@ public class ChatFragment extends SherlockFragment {
         Log.d(TAG, "Creating fragment");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        adapter = new BacklogAdapter(getSherlockActivity(), null);
-        preferences = PreferenceManager.getDefaultSharedPreferences(getSherlockActivity());
+        adapter = new BacklogAdapter(getActivity(), null);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (savedInstanceState != null && savedInstanceState.containsKey(BUFFER_ID)) {
             bufferId = savedInstanceState.getInt(BUFFER_ID);
         }
@@ -201,7 +200,7 @@ public class ChatFragment extends SherlockFragment {
         switch (item.getItemId()) {
             case R.id.menu_hide_events:
                 if (adapter.buffer == null)
-                    Toast.makeText(getSherlockActivity(), getString(R.string.not_available), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getString(R.string.not_available), Toast.LENGTH_SHORT).show();
                 else showHideEventsDialog();
                 return true;
         }

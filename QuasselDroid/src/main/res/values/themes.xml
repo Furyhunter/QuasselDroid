@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ThemeBase.Light" parent="Theme.Sherlock.Light"></style>
+    <style name="ThemeBase.Light" parent="Theme.AppCompat.Light"></style>
 
-    <style name="ThemeBase.Dark" parent="Theme.Sherlock"></style>
+    <style name="ThemeBase.Dark" parent="Theme.AppCompat"></style>
 
     <style name="QuasseldroidThemeLight" parent="@style/ThemeBase.Light">
         <item name="actionJoinChannelIcon">@drawable/action_new</item>

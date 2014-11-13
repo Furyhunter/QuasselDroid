@@ -5,10 +5,9 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
-public class LoginProgressDialog extends SherlockDialogFragment {
+public class LoginProgressDialog extends DialogFragment {
     public interface Callbacks {
         public void onCanceled();
 
@@ -32,7 +31,7 @@ public class LoginProgressDialog extends SherlockDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        ProgressDialog prog = new ProgressDialog(getSherlockActivity());
+        ProgressDialog prog = new ProgressDialog(getActivity());
         prog.setMessage("Connecting...");
         setCancelable(true);
         return prog;

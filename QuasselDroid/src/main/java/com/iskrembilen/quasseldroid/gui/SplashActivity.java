@@ -8,9 +8,9 @@ import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.crittercism.app.Crittercism;
 import com.iskrembilen.quasseldroid.R;
 import com.iskrembilen.quasseldroid.events.ConnectionChangedEvent;
@@ -20,7 +20,7 @@ import com.iskrembilen.quasseldroid.util.BusProvider;
 import com.iskrembilen.quasseldroid.util.ThemeUtil;
 import com.squareup.otto.Subscribe;
 
-public class SplashActivity extends SherlockActivity {
+public class SplashActivity extends ActionBarActivity {
     // Set the display time, in milliseconds (or extract it out as a configurable parameter)
     private final int SPLASH_DISPLAY_LENGTH = 500;
     private final String TAG = SplashActivity.class.getSimpleName();

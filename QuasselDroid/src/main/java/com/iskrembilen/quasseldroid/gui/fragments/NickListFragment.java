@@ -1,6 +1,7 @@
 package com.iskrembilen.quasseldroid.gui.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.iskrembilen.quasseldroid.Buffer;
 import com.iskrembilen.quasseldroid.IrcMode;
 import com.iskrembilen.quasseldroid.IrcUser;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class NickListFragment extends SherlockFragment {
+public class NickListFragment extends Fragment {
     private NicksAdapter adapter;
     private ExpandableListView list;
     private int bufferId = -1;
